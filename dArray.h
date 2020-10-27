@@ -4,8 +4,9 @@
 class dArray {
 public:
 	dArray();
+	dArray(int size);
 	dArray(int in[], int insize);
-	dArray(dArray& in);
+	dArray(const dArray& other);
 	~dArray();
 	void setElement(int element);
 	void searchelement(int detectiveelem);
@@ -14,11 +15,21 @@ public:
 	void getArray();
 	int* getPoint();
 	int getSize();
-	void toString(int num, char* out, int &cnt);
+	void toString(int num, char* out, int& cnt);
+	dArray& operator = (const dArray& other);
+	dArray operator + (const dArray&other);
+	dArray operator + (int number);
+	//dArray operator - (const dArray& other);
+	dArray operator - (int number);
+	dArray& operator ++ ();
+	dArray& operator -- ();
+	dArray& operator ++ (int a);
+	dArray& operator -- (int a);
+	int& operator [](int index);
 private:
 	int size;
 	int index;
-	int *point;
+	int* point;
 	int currentelement;
 	static int statsize, statindex, statcurrentelement;
 };

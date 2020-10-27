@@ -3,72 +3,139 @@ int dArray::statcurrentelement = 1;
 int dArray::statindex = 0;
 int dArray::statsize = 101;
 
-bool testChange(int b[], int size, int newelement, int number) {
-    dArray testArray(b, size);
-	testArray.changeelement(newelement, number);
-	if (testArray.getPoint()[number] == newelement){
-		return true;
+bool testravno(dArray one, dArray two){
+	one = two;
+	for (int i = 0; i < one.getSize(); i++) {
+		if (one.getPoint()[i] != two.getPoint()[i]) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+bool testplus(dArray one, dArray two) {
+	dArray temp = one + two;
+	for (int i = 0; i < one.getSize(); i++) {
+		if (temp.getPoint()[i] != one.getPoint()[i]) {
+			return 0;
+		}
+	}
+	for (int i = one.getSize(); i < one.getSize() + two.getSize(); i++) {
+		if (temp.getPoint()[i] != two.getPoint()[i - one.getSize()]) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+bool testminus(dArray one, int number) {
+	dArray temp = one;
+	for (int i = 0; i < one.getSize(); i++) {
+		if (one.getPoint()[i] == number) {
+			one - number;
+			if (one.getPoint()[i] == number || one.getSize() == temp.getSize()) {
+				return 0;
+			}
+		}
+	}
+	return 1;
+}
+
+bool testplusplus(dArray one, int number) {
+	dArray temp = one;
+	one + number;
+	for (int i = 0; i < one.getSize(); i++) {
+		if (one.getPoint()[i] != temp.getPoint()[i] + number) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+bool testinc(dArray one) {
+	dArray temp = one;
+	one++;
+	for (int i = 0; i < one.getSize(); i++) {
+		if (one.getPoint()[i] != temp.getPoint()[i] + 1) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+bool testdec(dArray one) {
+	dArray temp = one;
+	one--;
+	for (int i = 0; i < one.getSize(); i++) {
+		if (one.getPoint()[i] != temp.getPoint()[i] - 1) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+bool testindex(dArray one) {
+	for (int i = 0; i < one.getSize(); i++) {
+		if (one.getPoint()[i] != one[i]) {
+			return 0;
+		}
+	}
+	return 1;
+}
+int main() {
+	int a[2] = { 3,2 };
+	int b[8] = { 3,4,5,6,7,8,9,10 };
+	int c[5] = { 1,2,3,4,5 };
+	dArray one(a, 2);
+	dArray two(b, 8);
+
+	if (testravno(one, two) == 1) {
+		std::cout << "Test = successful" << std::endl;
 	}
 	else {
-		return false;
+		std::cout << "Test = failed" << std::endl;
 	}
 	
-}
-
-bool testAdd(int b[], int size, int addedelement) {
-	dArray testArray(b, size);
-	testArray.setElement(addedelement);
-	int sizee = testArray.getSize();
-	if (testArray.getPoint()[size] == addedelement) {
-		return 1;
+	if (testplus(one, two) == 1) {
+		std::cout << "Test + successful" << std::endl;
 	}
 	else {
-		return 0;
+		std::cout << "Test + failed" << std::endl;
 	}
-}
 
-bool testDelete(int b[], int size, int delelemnum) {
-	dArray testArray(b, size);
-	int sizep = testArray.getSize();
-	testArray.deleteelement(delelemnum);
-	int sizea = testArray.getSize();
-	if (sizep == sizea) {
-		return 0;
+	if (testminus(two, 6) == 1) {
+		std::cout << "Test - successful" << std::endl;
 	}
 	else {
-		return 1;
+		std::cout << "Test - failed" << std::endl;
 	}
-}
 
-int main() {
-	int b = 222;
-	int numb = 5;
-	int a[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-	/*for (int i = 0; i < 10; i++) {
-		std::cin >> a[i];
-	}*/
-	dArray standartArray;
-	dArray customArray(a, 10);
-	std::cout << "Array created by default constructor: ";
-	standartArray.getArray();
-	std::cout << "\nArray created with given parameters: ";
-	customArray.getArray();
-	customArray.setElement(b);
-	std::cout << "\nArray created with given parameters with new element: ";
-	customArray.getArray();
-	customArray.deleteelement(numb);
-	std::cout << "\nArray created with given parameters witout deleted element: ";
-	customArray.getArray();
-	customArray.changeelement(333, 1);
-	std::cout << "\nArray created with given parameters with changed element: ";
-	customArray.getArray();
-	customArray.searchelement(222);
-	std::cout << "\nTest results(1 - successful test, 0 - failed test):";
-	std::cout << "\nChange element test: ";
-	std::cout << testChange(a, 10, 222, 5);
-	std::cout << "\nAdd element test: ";
-	std::cout << testAdd(a, 10, 222);
-	std::cout << "\nDelete element test: ";
-	std::cout << testDelete(a, 10, 2);
+	if (testplusplus(one, 6) == 1) {
+		std::cout << "Test + successful" << std::endl;
+	}
+	else {
+		std::cout << "Test + failed" << std::endl;
+	}
+
+	if (testinc(two) == 1) {
+		std::cout << "Test ++ successful" << std::endl;
+	}
+	else {
+		std::cout << "Test ++ failed" << std::endl;
+	}
+
+	if (testdec(two) == 1) {
+		std::cout << "Test -- successful" << std::endl;
+	}
+	else {
+		std::cout << "Test -- failed" << std::endl;
+	}
+	
+	if (testindex(two) == 1) {
+		std::cout << "Test [] successful" << std::endl;
+	}
+	else {
+		std::cout << "Test [] failed" << std::endl;
+	}
 	return 0;
-}	
+}
