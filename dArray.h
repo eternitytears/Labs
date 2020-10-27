@@ -18,7 +18,7 @@ public:
 	void toString(int num, char* out, int& cnt);
 	dArray& operator = (const dArray& other);
 	dArray operator + (const dArray&other);
-	dArray operator + (int number);
+    friend dArray& operator + (dArray& kekw, int number);
 	//dArray operator - (const dArray& other);
 	dArray operator - (int number);
 	dArray& operator ++ ();

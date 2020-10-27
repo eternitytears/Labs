@@ -214,14 +214,17 @@ dArray& dArray::operator -- (int a) {
 }
 
 int& dArray::operator [](int index) {
+	if (index >= this->size) {
+		throw std::exception("arrayOutOfBounds");
+	}
 	return point[index];
 }
 
-dArray dArray::operator + (int number) {
-	for (int i = 0; i < size; i++) {
-		point[i] = point[i] + number;
+dArray& operator + (dArray& kekw, int number) {
+	for (int i = 0; i < kekw.size; i++) {
+		kekw.point[i] = kekw.point[i] + number;
 	}
-	return *this;
+	return kekw;
 }
 
 dArray dArray:: operator - (int number) {

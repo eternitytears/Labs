@@ -74,14 +74,20 @@ bool testdec(dArray one) {
 	return 1;
 }
 
-bool testindex(dArray one) {
-	for (int i = 0; i < one.getSize(); i++) {
-		if (one.getPoint()[i] != one[i]) {
-			return 0;
-		}
+void testindex(dArray one, int index) {
+	int a[10] = { 1,2,3,4,5,6,7,8,9 };
+	dArray temp(a, 10);
+	try
+	{
+		one[index];
+		std::cout << "Test [] successful" << std::endl;
 	}
-	return 1;
+	catch (const std::exception & ex)
+	{
+		std::cout << "Test [] failed. Error: " << ex.what() << std::endl;
+	}
 }
+
 int main() {
 	int a[2] = { 3,2 };
 	int b[8] = { 3,4,5,6,7,8,9,10 };
@@ -131,11 +137,5 @@ int main() {
 		std::cout << "Test -- failed" << std::endl;
 	}
 	
-	if (testindex(two) == 1) {
-		std::cout << "Test [] successful" << std::endl;
-	}
-	else {
-		std::cout << "Test [] failed" << std::endl;
-	}
-	return 0;
+	testindex(one, 10);
 }
