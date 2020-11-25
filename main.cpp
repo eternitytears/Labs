@@ -1,25 +1,18 @@
 #include "dArray.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+using namespace std;
 int dArray::statcurrentelement = 1;
 int dArray::statindex = 0;
 int dArray::statsize = 101;
 
-bool testChange(int b[], int size, int newelement, int number) {
-    dArray testArray(b, size);
-	testArray.changeelement(newelement, number);
-	if (testArray.getPoint()[number] == newelement){
-		return true;
-	}
-	else {
-		return false;
-	}
-	
-}
-
-bool testAdd(int b[], int size, int addedelement) {
-	dArray testArray(b, size);
-	testArray.setElement(addedelement);
-	int sizee = testArray.getSize();
-	if (testArray.getPoint()[size] == addedelement) {
+bool teststream() {
+	int b[5] = { 1,2,3,4,5 };
+	dArray temp(b, 5);
+	stringstream stream("");
+	stream << temp;
+	if (stream.str() == "Size: 5\nArray: 1 2 3 4 5 \n") {
 		return 1;
 	}
 	else {
@@ -27,48 +20,119 @@ bool testAdd(int b[], int size, int addedelement) {
 	}
 }
 
-bool testDelete(int b[], int size, int delelemnum) {
-	dArray testArray(b, size);
-	int sizep = testArray.getSize();
-	testArray.deleteelement(delelemnum);
-	int sizea = testArray.getSize();
-	if (sizep == sizea) {
-		return 0;
+bool testtextfile(dArray one, dArray two) {
+	dArray temp1 = one;
+	dArray temp2 = two;
+	ofstream f1("text.txt");
+	if (!f1) {
+		cout << "File open error " << endl;
+		return 1;
+	}
+	f1 << two << one;
+	f1.close();
+
+	ifstream f("text.txt");
+	if (!f) {
+		cout << "File open error " << endl;
+		return 1;
+	}
+	f >> two >> one;
+	f.close();
+	if (temp1 == one && temp2 == two) {
+		return 1;
 	}
 	else {
+		return 0;
+	}
+}
+
+bool testdatfile(dArray two) {
+	dArray temp2 = two;
+	ofstream in("asdasd.dat", ios::binary | ios::app);
+	if (!in) {
+		cout << "File open error " << endl;
 		return 1;
+	}
+	two.write(in);
+	in.close();
+	ifstream out("asdasd.dat", ios::binary | ios::app);
+	if (!out) {
+		cout << "File open error " << endl;
+		return 1;
+	}
+	two.read(out);
+	out.close();
+	if (temp2 == two) {
+		return 1;
+	}
+	else {
+		return 0;
 	}
 }
 
 int main() {
-	int b = 222;
-	int numb = 5;
-	int a[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-	/*for (int i = 0; i < 10; i++) {
-		std::cin >> a[i];
-	}*/
-	dArray standartArray;
-	dArray customArray(a, 10);
-	std::cout << "Array created by default constructor: ";
-	standartArray.getArray();
-	std::cout << "\nArray created with given parameters: ";
-	customArray.getArray();
-	customArray.setElement(b);
-	std::cout << "\nArray created with given parameters with new element: ";
-	customArray.getArray();
-	customArray.deleteelement(numb);
-	std::cout << "\nArray created with given parameters witout deleted element: ";
-	customArray.getArray();
-	customArray.changeelement(333, 1);
-	std::cout << "\nArray created with given parameters with changed element: ";
-	customArray.getArray();
-	customArray.searchelement(222);
-	std::cout << "\nTest results(1 - successful test, 0 - failed test):";
-	std::cout << "\nChange element test: ";
-	std::cout << testChange(a, 10, 222, 5);
-	std::cout << "\nAdd element test: ";
-	std::cout << testAdd(a, 10, 222);
-	std::cout << "\nDelete element test: ";
-	std::cout << testDelete(a, 10, 2);
-	return 0;
-}	
+	int a[2] = { 3,2 };
+	int b[8] = { 3,4,5,6,7,8,9,10 };
+	int c[5] = { 1,2,3,4,5 };
+	dArray one(a, 2);
+	dArray two(b, 8);
+	dArray three(c, 5);
+	int x = 0;
+	int y = 0;
+
+	/*ofstream f1("text.txt");
+	if (!f1) {
+		cout << "File open error " << endl;
+		return 1;
+	}
+	f1 << two << one << three;
+	f1.close();
+	ifstream f("text.txt");
+	if (!f) {
+		cout << "File open error " << endl;                         // txt file write/read
+		return 1;
+	}
+	f >> two >> one >> three;
+	f.close();
+	cout << two << one << three;
+	ofstream out("asd.dat", ios::binary | ios::in);
+	out.write((char*)&two, sizeof(two));
+	out.close();
+	ifstream in("asd.dat", ios::binary | ios::out);
+	in.read((char*)&two, sizeof(two));
+	in.close();
+	cout << two;
+	cout << testtextfile(one, two);*/
+
+	//ofstream in("asdasd.dat", ios::binary);
+	//two.write(in);
+	//one.write(in);
+	//in.close();
+	//ifstream out("asdasd.dat", ios::binary);            // binary file write/read
+	//two.read(out);
+	//one.read(out);
+	//out.close();
+	//cout << two << one;
+
+	//cout << testdatfile(two);
+	if (testtextfile(one,two) == 1) {
+		cout << "Text file test successful." << endl;
+	}
+	else {
+		cout << "Text file test failed." << endl;
+	}
+
+	if (testdatfile(two) == 1) {
+		cout << "Dat file test successful." << endl;
+	}
+	else {
+		cout << "Dat file test failed." << endl;
+	}
+
+	if (teststream() == 1) {
+		cout << "Stream test successful." << endl;
+	}
+	else {
+		cout << "Stream test failed. " << endl;
+	}
+}
