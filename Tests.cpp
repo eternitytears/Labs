@@ -5,9 +5,6 @@
 #include <fstream>
 #include <sstream>
 using namespace std;
-int dArray::statcurrentelement = 1;
-int dArray::statindex = 0;
-int dArray::statsize = 101;
 
 bool testpush() {
 	dStack tmp;
@@ -141,14 +138,4 @@ bool testpeek() {
 	{
 		cout << ex.what() << endl;
 	}
-}
-
-int main() {
-	testpush();
-	testempty();
-	teststackdel();
-	testqueuedel();
-	testfront();
-	testback();
-	testpeek();
 }
