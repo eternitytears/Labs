@@ -1,4 +1,4 @@
-#pragma once
+	#pragma once
 #include "dArray.h"
 #include <iostream>
 using namespace std;
