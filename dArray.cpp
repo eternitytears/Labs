@@ -51,75 +51,120 @@ dArray::~dArray() {
 }
 
 void dArray::setElement(int element) {
-	if (size == statsize) {
-		std::cout << "Array is over";
-	}
-	else {
-		int* tmp = new int[size + 1];
-		for (int i = 0; i < size; i++) {
+	int* tmp = new int[size + 1];
+	for (int i = 0; i < size; i++) {
 			tmp[i] = point[i];
-		}
-
-		tmp[size++] = element;
-		delete[] point;
-		point = tmp;
 	}
-}
 
-void dArray::searchelement(int detectiveelem) {
-	for (int i = 0; i < size; i++) {
-		if (point[i] == detectiveelem) {
-			std::cout << "\nSearched element index: " << i << "; searched element value: " << point[i];
-		}
-	}
-}
-
-void dArray::changeelement(int newelement, int numbelem) {
-	for (int i = 0; i < size; i++) {
-		if (i == numbelem) {
-			point[i] = newelement;
-		}
-	}
-}
-
-void dArray::deleteelement(int num) {
-	int* tmp = new int[size];
-	for (int i = 0; i < size; i++) {
-		if (i == num) {
-			tmp[i] = point[i + 1];
-			num++;
-		}
-		else {
-			tmp[i] = point[i];
-		}
-	}
-	size--;
+	tmp[size++] = element;
 	delete[] point;
 	point = tmp;
 }
 
-void dArray::getArray() {
-	char* c = new char[size * 2 + 1];
-	int i, count;
-	for (i = 0, count = 0; i < size; i++) {
-		if (point[i] > 0) {
-			toString(abs(point[i]), c, count);
-			c[count++] = ' ';
+void dArray::searchelement(int detectiveelem) {
+	try
+	{
+		if (size == 0) {
+			throw exception("Array is empty");
 		}
-		if (point[i] == 0) {
-			c[count++] = '0';
-			c[count++] = ' ';
+		int i;
+		for (i = 0; i < size; i++) {
+			if (point[i] == detectiveelem) {
+				std::cout << "\nSearched element index: " << i << "; searched element value: " << point[i];
+			}
 		}
-		if (point[i] < 0) {
-			c[count] = '-';
-			count++;
-			toString(abs(point[i]), c, count);
-			c[count++] = ' ';
+		if (i == size) {
+			throw exception("Search failed");
 		}
-
 	}
-	c[count] = '\0';
-	std::cout << c << "- array" << std::endl;
+	catch (const std::exception& ex)
+	{
+		cout << ex.what();
+	}
+}
+
+void dArray::changeelement(int newelement, int numbelem) {
+	try
+	{
+		if (numbelem + 1 == size || numbelem < 0) {
+			throw exception("Wrong index");
+		}
+		if (size == 0) {
+			throw exception("Array is empty");
+		}
+		for (int i = 0; i < size; i++) {
+			if (i == numbelem) {
+				point[i] = newelement;
+			}
+		}
+	}
+	catch (const std::exception& ex)
+	{
+		cout << ex.what() << endl;
+	}
+}
+
+void dArray::deleteelement(int num) {
+	try
+	{
+		if (num + 1 == size || num < 0) {
+			throw exception("Wrong index");
+		}
+		if (size == 0) {
+			throw exception("Array is empty");
+		}
+		int* tmp = new int[size];
+		for (int i = 0; i < size; i++) {
+			if (i == num) {
+				tmp[i] = point[i + 1];
+				num++;
+			}
+			else {
+				tmp[i] = point[i];
+			}
+		}
+		size--;
+		delete[] point;
+		point = tmp;
+	}
+	catch (const std::exception& ex)
+	{
+		cout << ex.what() << endl;
+	}
+}
+
+void dArray::getArray() {
+	try
+	{
+		if (size == 0) {
+			throw exception("Array is empty");
+		}
+		char* c = new char[size * 2 + 1];
+		int i, count;
+		for (i = 0, count = 0; i < size; i++) {
+			if (point[i] > 0) {
+				toString(abs(point[i]), c, count);
+				c[count++] = ' ';
+			}
+			if (point[i] == 0) {
+				c[count++] = '0';
+				c[count++] = ' ';
+			}
+			if (point[i] < 0) {
+				c[count] = '-';
+				count++;
+				toString(abs(point[i]), c, count);
+				c[count++] = ' ';
+			}
+
+		}
+		c[count] = '\0';
+		std::cout << c << "- array" << std::endl;
+	}
+	catch (const std::exception& ex)
+	{
+		cout << ex.what() << endl;
+	}
 }
 
 
@@ -198,10 +243,17 @@ dArray& dArray::operator -- (int a) {
 }
 
 int& dArray::operator [](int index) {
-	if (index >= this->size) {
-		throw exception("arrayOutOfBounds");
+	try
+	{
+		if (index >= this->size) {
+			throw exception("Array index out of bounds");
+		}
+		return point[index];
 	}
-	return point[index];
+	catch (const std::exception&)
+	{
+
+	}
 }
 
 dArray& operator + (dArray& kekw, int number) {
@@ -212,16 +264,27 @@ dArray& operator + (dArray& kekw, int number) {
 }
 
 dArray dArray:: operator - (int number) {
-	for (int i = 0; i < size; i++) {
-		if (point[i] == number) {
-			for (int j = i; j < size; j++) {
-				point[j] = point[j + 1];
+	try
+	{
+		int i;
+		for (i = 0; i < size; i++) {
+			if (point[i] == number) {
+				for (int j = i; j < size; j++) {
+					point[j] = point[j + 1];
+				}
+				break;
 			}
-			break;
 		}
+		size--;
+		if (i == size) {
+			throw exception("Wrong number");
+		}
+		return *this;
 	}
-	size--;
-	return *this;
+	catch (const std::exception& ex)
+	{
+		cout << ex.what() << endl;
+	}
 }
 
 bool dArray::operator == (const dArray& other) {
@@ -258,45 +321,86 @@ istream& operator>> (istream& is, dArray& ar) {
 }
 
 ofstream& operator<< (ofstream& os, dArray& ar) {
-	os << "Size: " << ar.size << endl << "Array: ";
-	for (int i = 0; i < ar.size; i++) {
-		os << ar.point[i] << " ";
+	try
+	{
+		if (!os) {
+			throw exception("File open error");
+		}
+		os << "Size: " << ar.size << endl << "Array: ";
+		for (int i = 0; i < ar.size; i++) {
+			os << ar.point[i] << " ";
+		}
+		os << endl;
+		return os;
 	}
-	os << endl;
-	return os;
+	catch (const std::exception& ex)
+	{
+		cout << ex.what() << endl;
+	}
 }
 
 ifstream& operator>> (ifstream& is, dArray& ar) {
-	if (ar.point) {
-		delete[] ar.point;
+	try
+	{
+		if (!is) {
+			throw exception("File open error");
+		}
+		if (ar.point) {
+			delete[] ar.point;
+		}
+		is.seekg(6, ios::cur);
+		is >> ar.size;
+		ar.point = new int[ar.size];
+		is.seekg(8, ios::cur);
+		for (int i = 0; i < ar.size; i++) {
+			is >> ar.point[i];
+		}
+		is.seekg(2, ios::cur);
+		return is;
 	}
-	is.seekg(6, ios::cur);
-	is >> ar.size;
-	ar.point = new int[ar.size];
-	is.seekg(8, ios::cur);
-	for (int i = 0; i < ar.size; i++) {
-		is >> ar.point[i];
+	catch (const std::exception& ex)
+	{
+		cout << ex.what() << endl;
 	}
-	is.seekg(2, ios::cur);
-	return is;
 }
 
 void dArray::write(ostream& os)
 {
-	os.write((char*)&size, sizeof(size));
-	for (int i = 0; i < size; i++) {
-		os.write((char*)&point[i], sizeof(point[i]));
+	try
+	{
+		if (!os) {
+			throw exception("File open error");
+		}
+		os.write((char*)&size, sizeof(size));
+		for (int i = 0; i < size; i++) {
+			os.write((char*)&point[i], sizeof(point[i]));
+		}
 	}
+	catch (const std::exception& ex)
+	{
+		cout << ex.what() << endl;
+	}
+	
 }
 
 void dArray::read(istream& in)
 {
-	in.read((char*)&size, sizeof(size));
-	if (point) {
-		delete[] point;
-		point = new int[size];
+	try
+	{
+		if (!in) {
+			throw exception("File open error");
+		}
+		in.read((char*)&size, sizeof(size));
+		if (point) {
+			delete[] point;
+			point = new int[size];
+		}
+		for (int i = 0; i < size; i++) {
+			in.read((char*)&point[i], sizeof(point[i]));
+		}
 	}
-	for (int i = 0; i < size; i++) {
-		in.read((char*)&point[i], sizeof(point[i]));
+	catch (const std::exception& ex)
+	{
+		cout << ex.what() << endl;
 	}
 }
