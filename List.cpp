@@ -1,5 +1,7 @@
 #include "List.h"
 #include "dArray.h"
+#include "dQueue.h"
+#include "dStack.h"
 #include <iostream>
 using namespace std;
 
@@ -77,11 +79,11 @@ void List::printAll()
 		Elem* temp = head;
 		for (int i = 1; i < count; i++)
 		{
-			cout << temp->data;
+			temp->data.getArray();
 			temp = temp->prev;
 		}
 
-		cout << temp->data;
+		temp->data.getArray();
 	}
 	catch (const std::exception& ex)
 	{
@@ -100,7 +102,7 @@ void List::print(int pos) {
 		temp = temp->prev;
 		i++;
 	}
-	cout << temp->data << endl;
+	temp->data.getArray();
 }
 
 void List::delAll()

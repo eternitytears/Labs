@@ -61,7 +61,7 @@ void dArray::setElement(int element) {
 	point = tmp;
 }
 
-void dArray::searchelement(int detectiveelem) {
+void dArray::searchElement(int detectiveelem) {
 	try
 	{
 		if (size == 0) {
@@ -83,7 +83,7 @@ void dArray::searchelement(int detectiveelem) {
 	}
 }
 
-void dArray::changeelement(int newelement, int numbelem) {
+void dArray::changeElement(int newelement, int numbelem) {
 	try
 	{
 		if (numbelem + 1 == size || numbelem < 0) {
@@ -104,10 +104,10 @@ void dArray::changeelement(int newelement, int numbelem) {
 	}
 }
 
-void dArray::deleteelement(int num) {
+void dArray::deleteElement(int num) {
 	try
 	{
-		if (num + 1 == size || num < 0) {
+		if (num + 1 >= size || num < 0) {
 			throw exception("Wrong index");
 		}
 		if (size == 0) {
@@ -133,7 +133,7 @@ void dArray::deleteelement(int num) {
 	}
 }
 
-void dArray::getArray() {
+    void dArray::getArray() {
 	try
 	{
 		if (size == 0) {
@@ -159,7 +159,7 @@ void dArray::getArray() {
 
 		}
 		c[count] = '\0';
-		std::cout << c << "- array" << std::endl;
+		std::cout << "Size: " << size << endl << "Array: " << c << std::endl;
 	}
 	catch (const std::exception& ex)
 	{
@@ -250,9 +250,9 @@ int& dArray::operator [](int index) {
 		}
 		return point[index];
 	}
-	catch (const std::exception&)
+	catch (const std::exception& ex)
 	{
-
+		cout << ex.what() << endl;
 	}
 }
 

@@ -11,10 +11,10 @@ public:
 	dArray(const dArray& other);
 	~dArray();
 	void setElement(int element);
-	void searchelement(int detectiveelem);
-	void changeelement(int newelement, int numbelem);
-	void deleteelement(int num);
-	void getArray();
+	void searchElement(int detectiveelem);
+	void changeElement(int newelement, int numbelem);
+	void deleteElement(int num);
+	virtual void getArray();
 	int* getPoint();
 	void write(ostream& os);
 	void read(istream& in);

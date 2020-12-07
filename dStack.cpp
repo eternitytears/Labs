@@ -1,4 +1,3 @@
-#include "dArray.h"
 #include "dStack.h"
 #include <iostream>
 using namespace std;
@@ -78,6 +77,40 @@ int dStack::peek(int ind) {
 			throw exception("Wrong index");
 		}
 		return point[ind];
+	}
+	catch (const std::exception& ex)
+	{
+		cout << ex.what() << endl;
+	}
+}
+
+void dStack::getArray() {
+	try
+	{
+		if (size == 0) {
+			throw exception("Array is empty");
+		}
+		char* c = new char[size * 2 + 1];
+		int i, count;
+		for (i = 0, count = 0; i < size; i++) {
+			if (point[i] > 0) {
+				toString(abs(point[i]), c, count);
+				c[count++] = ' ';
+			}
+			if (point[i] == 0) {
+				c[count++] = '0';
+				c[count++] = ' ';
+			}
+			if (point[i] < 0) {
+				c[count] = '-';
+				count++;
+				toString(abs(point[i]), c, count);
+				c[count++] = ' ';
+			}
+
+		}
+		c[count] = '\0';
+		std::cout << "Size: " << size << endl << "Stack: " << c << std::endl;
 	}
 	catch (const std::exception& ex)
 	{

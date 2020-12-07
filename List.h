@@ -6,12 +6,12 @@ using namespace std;
 struct Elem
 {
 	dArray data;
-	Elem* next, * prev;
+	Elem *next, *prev;
 };
 
 class List {
 	int count;
-	Elem* head, * tail;
+	Elem *head, *tail;
 public:
 	List();
 	~List();

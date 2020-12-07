@@ -1,7 +1,5 @@
-	#pragma once
+#pragma once
 #include "dArray.h"
-#include <iostream>
-using namespace std;
 class dStack: public dArray {
 public:
 	dStack();
@@ -10,4 +8,5 @@ public:
 	void del();
 	int top();
 	int peek(int ind);
+	void getArray();
 };
