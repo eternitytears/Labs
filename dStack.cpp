@@ -117,4 +117,3 @@ void dStack::getArray() {
 		cout << ex.what() << endl;
 	}
 }
-
