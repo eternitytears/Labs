@@ -10,4 +10,5 @@ public:
 	int front();
 	int back();
 	int peek(int ind);
+	void getArray();
 };

@@ -11,10 +11,10 @@ public:
 	dArray(const dArray& other);
 	~dArray();
 	void setElement(int element);
-	void searchelement(int detectiveelem);
-	void changeelement(int newelement, int numbelem);
-	void deleteelement(int num);
-	void getArray();
+	void searchElement(int detectiveelem);
+	void changeElement(int newelement, int numbelem);
+	void deleteElement(int num);
+	virtual void getArray();
 	int* getPoint();
 	void write(ostream& os);
 	void read(istream& in);
@@ -27,6 +27,8 @@ public:
 	dArray& operator -- ();
 	dArray& operator ++ (int a);
 	dArray& operator -- (int a);
+	friend bool operator < (const dArray& one, const dArray& two);
+	friend bool operator > (const dArray& one, const dArray& two);
 	bool operator == (const dArray& other);
 	int& operator [](int index);
 	friend dArray& operator + (dArray& kekw, int number);
@@ -34,6 +36,7 @@ public:
 	friend istream& operator>> (istream& is, dArray& ar);
 	friend ofstream& operator<< (ofstream& os, dArray& ar);
 	friend ifstream& operator>> (ifstream& is, dArray& ar);
+
 
 
 protected:
